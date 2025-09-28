@@ -5,7 +5,9 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFilter } from '@/contexts/FilterContext';
 
+// --- Ícones (sem alterações) ---
 const SearchIcon = () => ( <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> );
 const CartIcon = () => ( <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> );
 const UserIcon = () => ( <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> );
@@ -13,6 +15,7 @@ const LogInIcon = () => ( <svg width="20" height="20" viewBox="0 0 24 24" fill="
 const UserPlusIcon = () => ( <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="17" y1="11" x2="23" y2="11"></line></svg> );
 const LogOutIcon = () => ( <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> );
 
+// --- Styled Components ---
 const HeaderContainer = styled.header`
   background-color: #2563EB; color: #FFFFFF; padding: 1.25rem 2.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); display: flex;
@@ -20,15 +23,23 @@ const HeaderContainer = styled.header`
   top: 0; z-index: 50; width: 100%;
 `;
 const HeaderContent = styled.div`
-  width: 100%; max-width: 1200px; display: flex;
+  width: 100%; max-width: 1400px; display: flex;
   justify-content: space-between; align-items: center; gap: 2rem;
 `;
 const LogoContainer = styled(Link)`
   display: flex; align-items: center; text-decoration: none; flex-shrink: 0;
 `;
-const SearchBarContainer = styled.div`
-  position: relative; width: 100%; max-width: 500px;
+const SearchForm = styled.form`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%; max-width: 600px;
   @media (max-width: 768px) { display: none; }
+`;
+const SearchInputContainer = styled.div`
+  position: relative;
+  width: 100%;
 `;
 const SearchInput = styled.input`
   width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border-radius: 8px;
@@ -37,6 +48,21 @@ const SearchInput = styled.input`
   &::placeholder { color: rgba(255, 255, 255, 0.7); }
   &:focus { outline: none; background-color: rgba(255, 255, 255, 0.3); }
 `;
+
+const SearchButton = styled.button`
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #ffffff;
+  color: #1D4ED8; 
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover {
+    background-color: #E0E7FF; 
+  }
+`;
+
 const SearchIconWrapper = styled.div`
   position: absolute; top: 50%; left: 0.75rem;
   transform: translateY(-50%); color: rgba(255, 255, 255, 0.7);
@@ -108,6 +134,13 @@ const AvatarCircle = styled.div`
 export default function Header() {
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const { isAuthenticated, user, logout, isLoading } = useAuth();
+  const { setSearchQuery } = useFilter();
+  const [localSearch, setLocalSearch] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchQuery(localSearch);
+  };
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -127,10 +160,17 @@ export default function Header() {
         <LogoContainer href="/">
           <Image src="/images/nb_logo.svg" alt="Nextbook Logo" width={200} height={60} />
         </LogoContainer>
-        <SearchBarContainer>
-          <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
-          <SearchInput placeholder="Pesquise por seu próximo livro..." />
-        </SearchBarContainer>
+        <SearchForm onSubmit={handleSearch}>
+          <SearchInputContainer>
+            <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
+            <SearchInput
+              placeholder="Pesquise por seu próximo livro..."
+              value={localSearch}
+              onChange={(e) => setLocalSearch(e.target.value)}
+            />
+          </SearchInputContainer>
+          <SearchButton type="submit">Pesquisar</SearchButton>
+        </SearchForm>
 
         <ActionsContainer>
           <IconButton> <CartIcon /> </IconButton>
@@ -141,15 +181,12 @@ export default function Header() {
             ) : isAuthenticated && user ? (
               <>
                 <UserGreetingButton onClick={() => setUserMenuOpen(prev => !prev)}>
-                  <AvatarCircle>
-                    <UserIcon />
-                  </AvatarCircle>
+                  <AvatarCircle> <UserIcon /> </AvatarCircle>
                   <span>Olá, {(user.name || user.email).split('@')[0]}</span>
-                  </UserGreetingButton>
+                </UserGreetingButton>
                 <DropdownMenu $isOpen={isUserMenuOpen}>
                   <DropdownButton onClick={logout}>
-                    <LogOutIcon />
-                    <span>Sair</span>
+                    <LogOutIcon /> <span>Sair</span>
                   </DropdownButton>
                 </DropdownMenu>
               </>

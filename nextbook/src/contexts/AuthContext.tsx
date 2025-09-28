@@ -6,10 +6,12 @@ import api from '@/services/api';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 
+// --- CORREÇÃO APLICADA AQUI ---
 interface User {
-  sub: string; 
+  sub: string;
   email: string;
   name?: string;
+  role: string; // Adicione esta linha
 }
 
 interface AuthContextType {

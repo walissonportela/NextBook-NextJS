@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import MainLayout from '@/components/MainLayout';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { FilterProvider } from '@/contexts/FilterContext'; 
 
 export const metadata: Metadata = {
   title: 'NextBook',
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
       <body>
         <AuthProvider>
           <StyledComponentsRegistry>
-            <MainLayout>{children}</MainLayout>
+            <FilterProvider>
+              <MainLayout>{children}</MainLayout>
+            </FilterProvider>
           </StyledComponentsRegistry>
         </AuthProvider>
       </body>

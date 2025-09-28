@@ -133,7 +133,7 @@ export default function LoginPage() {
     <AuthContainer>
       <WelcomeHalf>
         <WelcomeContent>
-          <Image src="/images/nb_logo.svg" alt="Nextbook Logo" width={200} height={200} />
+          <Image src="/images/nb_logo.svg" alt="Nextbook Logo" width={500} height={500} />
           <WelcomeTitle>Bem-vindo de Volta!</WelcomeTitle>
           <Tagline>Sua próxima grande leitura te espera.</Tagline>
         </WelcomeContent>
