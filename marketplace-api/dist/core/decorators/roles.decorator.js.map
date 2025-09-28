@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/core/decorators/roles.decorator.ts"],"sourcesContent":["import { Reflector } from \"@nestjs/core\";\n\nexport type Role = 'ADMIN' | 'USER';\n\nexport const Roles = Reflector.createDecorator<Role[]>();"],"names":["Roles","Reflector","createDecorator"],"mappings":";;;;+BAIaA;;;eAAAA;;;sBAJa;AAInB,MAAMA,QAAQC,eAAS,CAACC,eAAe"}
