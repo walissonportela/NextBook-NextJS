@@ -8,6 +8,7 @@ import api from '@/services/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { useCart } from '@/contexts/CartContext';
 
 // ÍCONES 
 const StarIcon = () => (
@@ -58,7 +59,7 @@ const EditButton = styled(Link)`
   cursor: pointer;
   color: white;
   transition: opacity 0.2s;
-  background-color: #f59e0b; // Laranja
+  background-color: #f59e0b; /* Laranja */
 
   &:hover {
     opacity: 0.85;
@@ -76,7 +77,7 @@ const DeleteButton = styled.button`
   cursor: pointer;
   color: white;
   transition: opacity 0.2s;
-  background-color: #ef4444; // Vermelho
+  background-color: #ef4444; /* Vermelho */
 
   &:hover {
     opacity: 0.85;
@@ -197,6 +198,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [loading, setLoading] = useState(true);
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (params.id) {
@@ -314,8 +316,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(book.price)}
           </ProductPrice>
           
-          <AddToCartButton>
-            Adicionar ao Carrinho
+          <AddToCartButton onClick={() => addToCart(book)}>
+              Adicionar ao Carrinho +
           </AddToCartButton>
           <ProductDescription>
             <h3>Descrição</h3>

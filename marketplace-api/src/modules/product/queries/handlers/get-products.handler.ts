@@ -12,7 +12,7 @@ export class GetProductsHandler implements IQueryHandler<GetProductsQuery> {
         const whereClause: any = {};
         
         let pageNumber = page ?? 1;
-        let limitNumber = limit ?? 10;
+        let limitNumber = limit ?? 50;
         
         if (name) {
             whereClause.name = { contains: name, mode: 'insensitive' };

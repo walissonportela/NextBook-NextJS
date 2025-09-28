@@ -5,7 +5,7 @@ import GlobalStyle from '@/styles/GlobalStyle';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Toaster } from 'react-hot-toast'; 
-
+import CartSidebar from './CartSidebar'; 
 
 import { usePathname } from 'next/navigation';
 
@@ -36,6 +36,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <GlobalStyle />
       <Toaster position="top-right" />
       <Header />
+      <CartSidebar />
       <main>{children}</main>
       <Footer />
     </AppContainer>

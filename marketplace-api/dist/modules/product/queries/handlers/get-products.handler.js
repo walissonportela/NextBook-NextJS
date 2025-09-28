@@ -26,7 +26,7 @@ let GetProductsHandler = class GetProductsHandler {
         const { page, limit, description, name, price } = query.data;
         const whereClause = {};
         let pageNumber = page ?? 1;
-        let limitNumber = limit ?? 10;
+        let limitNumber = limit ?? 50;
         if (name) {
             whereClause.name = {
                 contains: name,

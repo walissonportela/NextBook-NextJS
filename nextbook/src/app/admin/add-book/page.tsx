@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import api from '@/services/api';
 import toast from 'react-hot-toast';
 import Image from 'next/image'; 
+import { FiBook } from 'react-icons/fi'; 
 
 // STYLED COMPONENTS 
 const PageContainer = styled.div`
@@ -92,7 +93,6 @@ const Button = styled.button`
   }
 `;
 
-// Card de Preview
 const PreviewContainer = styled.div`
   flex: 1;
   max-width: 400px;
@@ -211,13 +211,16 @@ export default function AddBookPage() {
   return (
     <PageContainer>
         <FormContainer onSubmit={handleSubmit}>
-            <FormTitle>Adicionar Novo Livro</FormTitle>
+            <FormTitle>
+                <FiBook size={30} style={{ marginRight: '10px' }} />
+                Adicionar Novo Livro
+            </FormTitle>
             <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome do Livro" required />
             <TextArea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição" required />
             <Input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Preço (ex: 49.90)" required />
             <Input type="file" onChange={handleImageChange} accept="image/*" required />
             <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Adicionando...' : 'Adicionar Livro'}
+                {isLoading ? 'Adicionando...' : 'Adicionar Livro +'}
             </Button>
         </FormContainer>
 
