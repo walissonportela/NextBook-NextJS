@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+# Arquivos e pastas do Next.js
+.next/
+out/
+
 # Logs
 logs
 *.log
