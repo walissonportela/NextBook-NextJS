@@ -4,6 +4,8 @@ Este projeto é uma aplicação web completa de uma livraria online (e-commerce)
 
 O NextBook foi construído com foco em uma experiência de usuário fluida, performance (graças ao Next.js) e código robusto com tipagem completa (TypeScript).
 
+👉 O deploy do projeto pode ser acessado em **[NextBook](https://next-book-next-js.vercel.app/)**.
+
 ## ✨ Funcionalidades do Projeto
 
 O NextBook oferece as seguintes funcionalidades principais:
