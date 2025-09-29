@@ -3,7 +3,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation'; 
 import { useAuth } from '@/contexts/AuthContext';
 import api from '@/services/api';
 import Image from 'next/image';
@@ -39,8 +39,10 @@ type Book = {
   imageUrl: string;
 };
 
-// Componente da Página
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage() {
+  const params = useParams();
+  const bookId = params.id as string;
+
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const { isAuthenticated, user } = useAuth();
@@ -48,10 +50,10 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    if (params.id) {
+    if (bookId) {
       const fetchBook = async () => {
         try {
-          const { data } = await api.get(`/products/${params.id}`);
+          const { data } = await api.get(`/products/${bookId}`);
           setBook(data);
         } catch (error) {
           console.error("Falha ao buscar o livro:", error);
@@ -61,7 +63,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       };
       fetchBook();
     }
-  }, [params.id]);
+  }, [bookId]); 
 
   const handleDelete = async () => {
     toast(
@@ -91,7 +93,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 toast.dismiss(t.id);
                 const toastId = toast.loading('Deletando livro...');
                 try {
-                  await api.delete(`/products/${params.id}`);
+                  await api.delete(`/products/${bookId}`);
                   toast.success('Livro deletado com sucesso!');
                   router.push('/');
                 } catch (error) {
