@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import api from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { FiUser, FiArrowRight } from 'react-icons/fi';
+import { isAxiosError } from 'axios';
 
 // Import dos componentes
 import {
@@ -58,42 +59,34 @@ export default function LoginPage() {
       toast.dismiss(loadingToast);
       toast.success('Login bem-sucedido!');
       router.push('/');
-    } catch (error: any) {
+    } catch (error) { 
       toast.dismiss(loadingToast);
-            
       let friendlyErrorMessage = "Ocorreu um erro inesperado. Tente novamente.";
-      
-      if (error.response) {
-        const statusCode = error.response.status;
-        const apiMessage = error.response.data?.message;
 
-        switch (statusCode) {
-          case 401: 
-            friendlyErrorMessage = apiMessage 
-              ? apiMessage 
-              : "Email ou senha inválidos. Por favor, verifique suas credenciais.";
-            break;
-            
-          case 403: 
-            friendlyErrorMessage = apiMessage 
-              ? apiMessage
-              : "Acesso negado. Sua conta pode estar inativa ou bloqueada.";
-            break;
+      if (isAxiosError(error)) {
+        if (error.response) {
+          const statusCode = error.response.status;
+          const apiMessage = error.response.data?.message;
 
-          case 400: 
-            friendlyErrorMessage = apiMessage 
-              ? apiMessage
-              : "Requisição inválida. Verifique os dados fornecidos.";
-            break;
-            
-          default:
-            friendlyErrorMessage = "Erro no servidor. Tente novamente mais tarde.";
-            break;
+          switch (statusCode) {
+            case 401:
+              friendlyErrorMessage = apiMessage || "Email ou senha inválidos.";
+              break;
+            case 403:
+              friendlyErrorMessage = apiMessage || "Acesso negado.";
+              break;
+            case 400:
+              friendlyErrorMessage = apiMessage || "Requisição inválida.";
+              break;
+            default:
+              friendlyErrorMessage = "Erro no servidor. Tente novamente mais tarde.";
+              break;
+          }
+        } else if (error.request) {
+          friendlyErrorMessage = "Não foi possível conectar ao servidor.";
         }
-      } else if (error.request) {
-        friendlyErrorMessage = "Não foi possível conectar ao servidor. Verifique sua conexão com a internet.";
-      } 
-      toast.error(friendlyErrorMessage);  
+      }
+      toast.error(friendlyErrorMessage);
     } finally {
       setIsLoading(false);
     }

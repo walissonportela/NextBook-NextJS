@@ -174,6 +174,7 @@ export default function EditBookForm({ bookId }: EditBookFormProps) {
           setPrice(data.price.toString());
           setPreviewImage(data.imageUrl);
         } catch (error) {
+          console.error("Falha ao buscar dados do livro:", error); 
           toast.error('Livro não encontrado!');
           router.push('/'); 
         }

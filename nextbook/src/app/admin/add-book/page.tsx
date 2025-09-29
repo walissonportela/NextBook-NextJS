@@ -7,6 +7,7 @@ import api from '@/services/api';
 import toast from 'react-hot-toast';
 import Image from 'next/image'; 
 import { FiBook } from 'react-icons/fi'; 
+import { isAxiosError } from 'axios';
 
 // STYLED COMPONENTS 
 const PageContainer = styled.div`
@@ -193,18 +194,21 @@ export default function AddBookPage() {
     formData.append('image', image);
 
     try {
-        await api.post('/products', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        toast.dismiss(loadingToast);
-        toast.success('Livro adicionado com sucesso!');
-        router.push('/');
-    } catch (error: any) {
-        toast.dismiss(loadingToast);
-        const errorMessage = error.response?.data?.message || "Ocorreu um erro inesperado.";
-        toast.error(`Falha ao adicionar o livro: ${errorMessage}`);
+      await api.post('/products', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      toast.dismiss(loadingToast);
+      toast.success('Livro adicionado com sucesso!');
+      router.push('/');
+    } catch (error) { 
+      toast.dismiss(loadingToast);
+      let errorMessage = "Ocorreu um erro inesperado.";
+      if (isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      toast.error(`Falha ao adicionar o livro: ${errorMessage}`);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 

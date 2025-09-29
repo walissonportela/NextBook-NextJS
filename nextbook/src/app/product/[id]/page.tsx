@@ -9,6 +9,7 @@ import api from '@/services/api';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { useCart } from '@/contexts/CartContext';
+import { isAxiosError } from 'axios';
 
 // Import dos componentes
 import {
@@ -94,7 +95,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                   toast.success('Livro deletado com sucesso!');
                   router.push('/');
                 } catch (error) {
-                  toast.error('Falha ao deletar o livro.');
+                  let errorMessage = 'Falha ao deletar o livro.';
+                  if (isAxiosError(error) && error.response?.data?.message) {
+                    errorMessage = error.response.data.message;
+                  }
+                  toast.error(errorMessage);
                 } finally {
                   toast.dismiss(toastId);
                 }
