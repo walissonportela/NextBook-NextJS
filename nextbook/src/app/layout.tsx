@@ -1,3 +1,5 @@
+// RAÍZ DA APLICAÇÃO (layout.tsx) - Define a estrutura HTML e Context Providers
+
 import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 import MainLayout from '@/components/MainLayout';

@@ -1,3 +1,4 @@
+// COMPONENTE - EDIÇÃO DE LIVROS
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,10 +7,10 @@ import styled from 'styled-components';
 import api from '@/services/api';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
-import { FiBook } from 'react-icons/fi'; 
+import { FiBook } from 'react-icons/fi';
 
 
-// Styled Components
+// Styled Components 
 const PageContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -150,11 +151,11 @@ const PreviewPrice = styled.p`
   text-align: right;
 `;
 
-type BookFormProps = {
-  bookId?: string;
+type EditBookFormProps = {
+  bookId: string; 
 };
 
-export default function BookForm({ bookId }: BookFormProps) {
+export default function EditBookForm({ bookId }: EditBookFormProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -163,10 +164,8 @@ export default function BookForm({ bookId }: BookFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const isEditMode = !!bookId;
-
   useEffect(() => {
-    if (isEditMode) {
+    if (bookId) {
       const fetchBook = async () => {
         try {
           const { data } = await api.get(`/products/${bookId}`);
@@ -176,12 +175,12 @@ export default function BookForm({ bookId }: BookFormProps) {
           setPreviewImage(data.imageUrl);
         } catch (error) {
           toast.error('Livro não encontrado!');
-          router.push('/');
+          router.push('/'); 
         }
       };
       fetchBook();
     }
-  }, [bookId, isEditMode, router]);
+  }, [bookId, router]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -204,40 +203,30 @@ export default function BookForm({ bookId }: BookFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validação extra para o modo de criação
-    if (!isEditMode && !image) {
-      toast.error('Por favor, selecione uma imagem para o livro.');
-      return;
-    }
-
+        
     setIsLoading(true);
     
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('price', price);
+    
     if (image) { 
       formData.append('image', image);
     }
 
-    const toastId = toast.loading(isEditMode ? 'Atualizando livro...' : 'Adicionando livro...');
+    const toastId = toast.loading('Atualizando livro...');
 
     try {
-      if (isEditMode) {
-        await api.put(`/products/${bookId}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        toast.success('Livro atualizado com sucesso!');
-      } else {
-        await api.post('/products', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        toast.success('Livro adicionado com sucesso!');
-      }
-      router.push('/');
+      await api.put(`/products/${bookId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      
+      toast.success('Livro atualizado com sucesso!');
+      router.push(`/product/${bookId}`); 
+
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Ocorreu um erro.';
+      const errorMessage = error.response?.data?.message || 'Ocorreu um erro ao atualizar.';
       toast.error(`Erro: ${errorMessage}`);
     } finally {
       toast.dismiss(toastId);
@@ -250,15 +239,15 @@ export default function BookForm({ bookId }: BookFormProps) {
         <FormContainer onSubmit={handleSubmit}>
             <FormTitle>
                 <FiBook size={30} style={{ marginRight: '10px' }} />
-                {isEditMode ? 'Editar Livro' : 'Adicionar Novo Livro'}
+                Editar Livro 
             </FormTitle>
             <Input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome do Livro" required />
             <TextArea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Descrição" required />
             <Input type="number" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Preço (ex: 49.90)" required />
-            <Input type="file" onChange={handleImageChange} accept="image/*" required={!isEditMode} />
+            <Input type="file" onChange={handleImageChange} accept="image/*" /> 
             
             <Button type="submit" disabled={isLoading}>
-                {isLoading ? (isEditMode ? 'Salvando...' : 'Adicionando...') : (isEditMode ? 'Salvar Alterações' : 'Adicionar Livro')}
+                {isLoading ? 'Salvando...' : 'Salvar Alterações'}
             </Button>
         </FormContainer>
         <PreviewContainer>

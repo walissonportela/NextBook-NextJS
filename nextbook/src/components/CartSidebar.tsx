@@ -1,6 +1,8 @@
+// CARRINHO DE COMPRAS
+
 'use client';
 
-import { useState, useEffect } from 'react'; // 1. Importe useState e useEffect
+import { useState, useEffect } from 'react'; 
 import styled from 'styled-components';
 import { useCart } from '@/contexts/CartContext';
 import Image from 'next/image';
@@ -138,7 +140,6 @@ const EmptyCartMessage = styled.div`
 export default function CartSidebar() {
   const { isOpen, toggleCart, cartItems, addToCart, decreaseQuantity, removeFromCart, cartTotal } = useCart();
   
-  // 2. Crie um estado para verificar se o componente já montou no cliente
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

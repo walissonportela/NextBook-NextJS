@@ -1,3 +1,5 @@
+// CONTEXTO DE AUTENTICAÇÃO
+
 'use client';
 
 import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
@@ -6,12 +8,11 @@ import api from '@/services/api';
 import { useRouter } from 'next/navigation';
 import { jwtDecode } from 'jwt-decode';
 
-// --- CORREÇÃO APLICADA AQUI ---
 interface User {
   sub: string;
   email: string;
   name?: string;
-  role: string; // Adicione esta linha
+  role: string; 
 }
 
 interface AuthContextType {

@@ -1,3 +1,5 @@
+// CONTEXTO DE FILTROS
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, Dispatch, SetStateAction } from 'react';
