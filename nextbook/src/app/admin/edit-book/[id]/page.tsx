@@ -3,16 +3,10 @@
 'use client';
 import EditBookForm from '@/components/EditBookForm';
 
-type EditBookPageProps = {
-  params: {
-    id: string;
-  };
-};
-
-export default function EditBookPage({ params }: EditBookPageProps) {
+export default function EditBookPage() {
   return (
     <div>
-      <EditBookForm bookId={params.id} />
+      <EditBookForm />
     </div>
   );
 }

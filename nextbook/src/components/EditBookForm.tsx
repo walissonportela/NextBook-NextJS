@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import styled from 'styled-components';
 import api from '@/services/api';
 import toast from 'react-hot-toast';
@@ -151,11 +151,7 @@ const PreviewPrice = styled.p`
   text-align: right;
 `;
 
-type EditBookFormProps = {
-  bookId: string; 
-};
-
-export default function EditBookForm({ bookId }: EditBookFormProps) {
+export default function EditBookForm() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -163,6 +159,8 @@ export default function EditBookForm({ bookId }: EditBookFormProps) {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const params = useParams(); 
+  const bookId = params.id as string; 
 
   useEffect(() => {
     if (bookId) {
