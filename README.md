@@ -231,5 +231,6 @@ Estes comandos devem ser executados dentro da pasta `marketplace-api/`.
 ## 👋 Desenvolvimento e Contato
 
 Este projeto foi **desenvolvido por Walisson Portela** como uma demonstração de habilidades em desenvolvimento Front-end com Next.js e TypeScript.
+
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](linkedin.com/in/walissonportela/)
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](github.com/walissonportela)
