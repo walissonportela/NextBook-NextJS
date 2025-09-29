@@ -1,7 +1,18 @@
 // PÁGINA DE EDIÇÃO (app/admin/edit-book/[id]/page.tsx)
 
-import BookForm from "@/components/EditBookForm";
+'use client';
+import EditBookForm from '@/components/EditBookForm';
 
-export default function EditBookPage({ params }: { params: { id: string } }) {
-  return <BookForm bookId={params.id} />; 
+type EditBookPageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default function EditBookPage({ params }: EditBookPageProps) {
+  return (
+    <div>
+      <EditBookForm bookId={params.id} />
+    </div>
+  );
 }
