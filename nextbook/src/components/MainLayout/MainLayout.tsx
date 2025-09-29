@@ -4,10 +4,10 @@
 
 import styled from 'styled-components';
 import GlobalStyle from '@/styles/GlobalStyle';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import { Toaster } from 'react-hot-toast'; 
-import CartSidebar from './CartSidebar'; 
+import CartSidebar from '@/components/CartSidebar/CartSidebar'; 
 
 import { usePathname } from 'next/navigation';
 
