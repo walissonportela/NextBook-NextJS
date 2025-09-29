@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import api from '@/services/api';
 import { FiUser, FiArrowRight } from 'react-icons/fi';
+import { isAxiosError } from 'axios';
 
 // Import dos componentes
 import {
@@ -88,9 +89,12 @@ export default function RegisterPage() {
         router.push('/login');
       }, 2000);
 
-    } catch (error: any) {
+    } catch (error) {
       toast.dismiss(loadingToast);
-      const errorMessage = error.response?.data?.message || "Ocorreu um erro inesperado.";
+      let errorMessage = "Ocorreu um erro inesperado.";
+      if (isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
       toast.error(`Falha no cadastro: ${errorMessage}`);
     } finally {
       setIsLoading(false);
@@ -134,7 +138,7 @@ export default function RegisterPage() {
                   mask="000.000.000-00"
                   id="cpf"
                   value={formData.cpf}
-                  onAccept={(value: any) => handleChange({ target: { id: 'cpf', value } } as any)}
+                  onAccept={(value: string) => handleChange({ target: { id: 'cpf', value } })}
                   required
                 />
               </InputWrapper>
@@ -146,7 +150,7 @@ export default function RegisterPage() {
                   mask="(00) 00000-0000"
                   id="phone"
                   value={formData.phone}
-                  onAccept={(value: any) => handleChange({ target: { id: 'phone', value } } as any)}
+                  onAccept={(value: string) => handleChange({ target: { id: 'phone', value } })}
                   required
                 />
               </InputWrapper>

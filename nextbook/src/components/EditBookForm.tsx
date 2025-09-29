@@ -8,7 +8,7 @@ import api from '@/services/api';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { FiBook } from 'react-icons/fi';
-
+import { isAxiosError } from 'axios';
 
 // Styled Components 
 const PageContainer = styled.div`
@@ -225,8 +225,11 @@ export default function EditBookForm({ bookId }: EditBookFormProps) {
       toast.success('Livro atualizado com sucesso!');
       router.push(`/product/${bookId}`); 
 
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Ocorreu um erro ao atualizar.';
+    } catch (error) {
+      let errorMessage = "Ocorreu um erro ao atualizar.";
+      if (isAxiosError(error) && error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
       toast.error(`Erro: ${errorMessage}`);
     } finally {
       toast.dismiss(toastId);
