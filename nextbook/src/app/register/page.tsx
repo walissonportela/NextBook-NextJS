@@ -107,7 +107,7 @@ export default function RegisterPage() {
     <RegisterContainer>
       <WelcomeHalf>
         <WelcomeContent>
-          <Image src="/images/nb_logo.svg" alt="Nextbook Logo" width={400} height={400} />
+          <Image src="/images/nb_logo.svg" alt="Nextbook Logo" width={500} height={500} />
           <WelcomeTitle>Bem-vindo à Nextbook!</WelcomeTitle>
           <Tagline>Onde cada página é uma nova aventura.</Tagline>
         </WelcomeContent>
