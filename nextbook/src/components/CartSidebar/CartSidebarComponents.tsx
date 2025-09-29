@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart, FiArrowRight } from 'react-icons/fi';
 
 export interface CartItemType {
   id: string;
@@ -126,6 +126,8 @@ const RemoveButton = styled.button`
 `;
 
 const Footer = styled.div`
+  display: flex;
+  flex-direction: column; 
   padding: 1.5rem;
   border-top: 1px solid #e5e7eb;
 `;
@@ -139,15 +141,22 @@ const TotalContainer = styled.div`
 `;
 
 const CheckoutButton = styled(Link)`
-  display: block;
-  width: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  gap: 0.5rem;           
+  width: 60%;
+  max-width: 320px;     
   padding: 1rem;
   background-color: #16a34a;
   color: white;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
+  transition: background-color 0.2s;
+
+  &:hover { background-color: #15803d; }
 `;
 
 const EmptyCartMessage = styled.div`
@@ -197,7 +206,10 @@ export const CartFooter = ({ total }: { total: number }) => (
       <span>Total</span>
       <span>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total)}</span>
     </TotalContainer>
-    <CheckoutButton href="#">Finalizar Compra</CheckoutButton>
+    <CheckoutButton href="/">
+      Finalizar Compra
+      <FiArrowRight size={20}/>
+    </CheckoutButton>
   </Footer>
 );
 
