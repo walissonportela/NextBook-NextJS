@@ -143,14 +143,46 @@ Certifique-se de ter o seguinte instalado:
 
 ### 💻 Passo 2: Início do Front-end (`nextbook`)
 
-1.  **Volte para a pasta raiz do projeto e acesse a pasta do Front-end:**
+1.  **Acesse a pasta do Front-end e instale as dependências:**
 
+    *Em um novo terminal, a partir da raiz do projeto:*
     ```bash
-    cd ../nextbook 
+    cd nextbook 
     npm install
     ```
 
-2.  **Inicie o Projeto Next.js:**
+2.  **Configure a URL da API para Desenvolvimento Local:**
+
+    Para que o Front-end se conecte à sua API que está rodando localmente, é necessário fazer um pequeno ajuste no código.
+
+    * **Abra o arquivo** onde a sua instância do Axios é criada (por exemplo, `nextbook/src/services/api.ts`).
+    * **Comente** a linha da `baseURL` de produção e **descomente** a linha da `baseURL` de desenvolvimento.
+
+    **Altere de:**
+    ```javascript
+    import axios from 'axios';
+
+    const api = axios.create({
+      //baseURL: 'http://localhost:4000/api/v1', // URL para desenvolvimento local
+      baseURL: process.env.NEXT_PUBLIC_API_URL,   // URL para produção (Vercel)
+    });
+
+    export default api;
+    ```
+
+    **Para:**
+    ```javascript
+    import axios from 'axios';
+
+    const api = axios.create({
+      baseURL: 'http://localhost:4000/api/v1', // URL para desenvolvimento local
+      //baseURL: process.env.NEXT_PUBLIC_API_URL,   // URL para produção (Vercel)
+    });
+
+    export default api;
+    ```
+
+3.  **Inicie o Projeto Next.js:**
 
     ```bash
     npm run dev
@@ -198,4 +230,7 @@ Estes comandos devem ser executados dentro da pasta `marketplace-api/`.
 
 ## 👋 Desenvolvimento e Contato
 
-Este projeto foi **desenvolvido por Walisson Portela** como uma demonstração de habilidades em desenvolvimento Front-end com Next.js e TypeScript.
+Este projeto foi desenvolvido por **Walisson Portela**. Entre em contato ou veja outros projetos:
+
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](linkedin.com/in/walissonportela/)
+[![GitHub](https://img.shields.io/badge/-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](github.com/walissonportela)
