@@ -27,7 +27,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return (
       <>
         <GlobalStyle />
-        <Toaster position="top-right" /> 
+        <Toaster position="bottom-right" /> 
         {children}
       </>
     );
@@ -36,7 +36,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <AppContainer>
       <GlobalStyle />
-      <Toaster position="top-right" />
+      <Toaster position="bottom-right" />
       <Header />
       <CartSidebar />
       <main>{children}</main>
